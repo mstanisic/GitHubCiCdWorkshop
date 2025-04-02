@@ -26,7 +26,14 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --logger trx
+    - name: Generate test summary
+      uses: dorny/test-reporter@v2
+      if: success() || failure()
+      with:
+        name: Tests
+        path: GitHubCiCd.Tests/TestResults/*.trx
+        reporter: dotnet-trx
     - name: Publish
       run: dotnet publish ./GitHubCiCd/GitHubCiCd.csproj --output ./sample-app
     - name: Upload artifact
