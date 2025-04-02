@@ -14,6 +14,6 @@ public class WeatherForecastControllerTests
 
         var forecasts = controller.Get().ToArray();
 
-        forecasts.Length.ShouldBe(5);
+        forecasts.Length.ShouldBe(4);
     }
 }
