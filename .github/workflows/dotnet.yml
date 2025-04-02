@@ -27,3 +27,11 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish ./GitHubCiCd/GitHubCiCd.csproj --output ./sample-app
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      if: github.event_name != 'pull_request'
+      with:
+        name: sample-app
+        path: ./sample-app
