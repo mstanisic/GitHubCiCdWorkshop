@@ -1,0 +1,12 @@
+name: "Upload job summary"
+description: "Uploads a Markdown file as a job summary"
+inputs:
+  filepath:
+    description: "Path to the Markdown file to upload"
+    required: true
+  heading:
+    description: "Heading for the job summary"
+    required: true
+runs:
+  using: "node20"
+  main: "index.js"
