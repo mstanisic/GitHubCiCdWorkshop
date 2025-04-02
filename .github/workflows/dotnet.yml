@@ -23,10 +23,18 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Restore local tools
+      run: dotnet tool restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --logger trx
+      run: dotnet test --no-build --verbosity normal --logger trx --collect:"XPlat Code Coverage"
+    - name: Generate code coverage report
+      run: dotnet reportgenerator -reports:**/coverage.cobertura.xml -targetdir:./coverage -reporttypes:MarkdownSummary
+      if: success() || failure()
+    - name: Upload code coverage report
+      run: cat coverage/Summary.md >> $GITHUB_STEP_SUMMARY
+      if: success() || failure()
     - name: Generate test summary
       uses: dorny/test-reporter@v2
       if: success() || failure()
